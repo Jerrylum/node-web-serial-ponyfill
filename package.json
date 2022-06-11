@@ -1,0 +1,56 @@
+{
+  "name": "node-web-serial-ponyfill",
+  "version": "0.5.0",
+  "description": "Just a test package lmao.",
+  "main": "dist/node-web-serial-ponyfill.cjs.js",
+  "typings": "index.d.ts",
+  "module": "dist/node-web-serial-ponyfill.es.js",
+  "scripts": {
+    "start": "ts-node examples/connect.ts",
+    "build": "tsc && NODE_ENV=production rollup -c",
+    "dev": "rollup -c -w",
+    "test": "node test/test.spec.js",
+    "pretest": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerrylum/node-web-serial-ponyfill.git"
+  },
+  "files": [
+    "dist/*",
+    "index.d.ts",
+    "/*.min.js*",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [],
+  "author": "jerrylum <me@jerryio.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jerrylum/node-web-serial-ponyfill/issues"
+  },
+  "homepage": "https://github.com/jerrylum/node-web-serial-ponyfill#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "@types/jest": "^28.1.1",
+    "jest": "^28.1.1",
+    "rollup": "^2.75.6",
+    "rollup-plugin-dts": "^4.2.2",
+    "rollup-plugin-license": "^2.8.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "^28.0.4",
+    "ts-node": "^10.8.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "@types/dom-serial": "^1.0.2",
+    "@types/prompt-sync": "^4.1.1",
+    "prompt-sync": "^4.2.0",
+    "serialport": "^10.4.0",
+    "web-streams-polyfill": "^3.2.1"
+  }
+}
