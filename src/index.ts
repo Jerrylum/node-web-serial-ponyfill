@@ -2,27 +2,41 @@ import { NodeSerialAdapter } from "./NodeSerialAdapter";
 
 export interface NodeSerial extends Serial {
     /**
-     * Returns all available ports filtered by the options.
+     * Returns a Promise that resolves with an array of SerialPort objects representing all serial ports connected to
+     * the host filtered by the options.
      * 
      * A special feature dedicated to Node.js.
      * 
-     * @param options the port filter
-     * @returns 
+     * @param options The port filter
+     * @returns A Promise that resolves with an array of SerialPort objects.
      */
     listPorts(options?: SerialPortRequestOptions): Promise<SerialPort[]>;
 
     /**
-     * Returns port by its path.
+     * Returns a Promise that resolves with an instance of SerialPort representing the device on the path.
      * 
      * A special feature dedicated to Node.js.
      * 
-     * @param portPath the path to the serial port, e.g. `/dev/ttyUSB0` on Linux or `COM1` on Windows
-     * @returns the serial port instance
+     * @param portPath The path to the serial port, e.g. `/dev/ttyUSB0` on Linux or `COM1` on Windows
+     * @returns A SerialPort objects.
      */
     findPort(portPath: string): Promise<SerialPort | undefined>;
 
+    /**
+     * Returns a Promise that resolves with an array of SerialPort objects representing serial ports connected to the 
+     * host which the user has selected in requestPort().
+     * 
+     * @returns A Promise that resolves with an array of SerialPort objects.
+     */
     getPorts(): Promise<NodeSerialPort[]>;
 
+    /**
+     * Returns a Promise that resolves with an instance of SerialPort representing the device chosen by the user or 
+     * rejects if no device was selected.
+     * 
+     * @param options The port filter
+     * @returns A SerialPort objects.
+     */
     requestPort(options?: SerialPortRequestOptions): Promise<NodeSerialPort>;
 }
 
