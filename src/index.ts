@@ -38,10 +38,20 @@ export interface NodeSerial extends Serial {
      * @returns A SerialPort objects.
      */
     requestPort(options?: SerialPortRequestOptions): Promise<NodeSerialPort>;
+    
+    addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: AddEventListenerOptions | boolean): void;
+
+    dispatchEvent(event: Event): boolean;
+
+    removeEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventListenerOptions | boolean): void;
 }
 
 export interface NodeSerialPort extends SerialPort {
+    addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: AddEventListenerOptions | boolean): void;
 
+    dispatchEvent(event: Event): boolean;
+
+    removeEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventListenerOptions | boolean): void;
 }
 
 export const serial: NodeSerial = new NodeSerialAdapter();
