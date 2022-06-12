@@ -12,7 +12,8 @@ class NodeUnderlyingSource implements UnderlyingSource<Uint8Array> {
     handleDisconnection(controller: ReadableStreamDefaultController) {
         if (this.adapter_.readable_)
             controller.error(new Error("The device has been lost."));
-        else if (!(controller as any)._closeRequested) // HACK: avoid "The stream is not in a state that permits close" error
+        else if (!(controller as any)._closeRequested && (controller as any)._controlledReadableStream._state === 'readable')
+            // HACK: avoid "The stream is not in a state that permits close" error
             controller.close();
     }
 
