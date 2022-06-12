@@ -9,7 +9,7 @@
     "start": "ts-node examples/connect.ts",
     "build": "tsc && NODE_ENV=production rollup -c",
     "dev": "rollup -c -w",
-    "test": "node test/test.spec.js",
+    "test": "jest",
     "pretest": "npm run build"
   },
   "repository": {
@@ -31,11 +31,15 @@
   },
   "homepage": "https://github.com/jerrylum/node-web-serial-ponyfill#readme",
   "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-typescript": "^7.17.12",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.2",
     "@types/jest": "^28.1.1",
+    "babel-jest": "^28.1.1",
     "jest": "^28.1.1",
     "rollup": "^2.75.6",
     "rollup-plugin-dts": "^4.2.2",
