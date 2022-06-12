@@ -18,6 +18,10 @@ import { NodeSerial, serial } from '../src/';
         console.log('Event Disconnected');
     });
 
+    port.addEventListener('error', () => {
+        console.log('Event Error');
+    });
+
     await port.open({ baudRate: 115200 });
 
     let reader = port.readable.getReader();
@@ -28,22 +32,31 @@ import { NodeSerial, serial } from '../src/';
         await writer.write(Uint8Array.from([201, 54, 184, 71, 86, 34, 0, 96, 252]));
         console.log("Written");
         
-    }, 1000);
-    
+    }, 100);
     
     setTimeout(async () => {
-        await reader.cancel();
-        await writer.close();
-        await port.close();
+        
+        while (true) {
+            let { value, done } = await reader.read();
+            console.log("result", value, done);
+            if (done) break;
+        }   
+    }, 3000);
 
-        console.log("closed");        
-    }, 2000);
+    
+    // setTimeout(async () => {
+    //     await reader.cancel();
+    //     await writer.close();
+    //     await port.close();
 
-    while (true) {
-        let { value, done } = await reader.read();
-        if (done) break;
-        console.log("result", value);
-    }
+    //     console.log("closed");        
+    // }, 2000);
+
+    // while (true) {
+    //     let { value, done } = await reader.read();
+    //     if (done) break;
+    //     console.log("result", value);
+    // }
 
 
 
