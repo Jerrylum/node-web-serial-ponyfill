@@ -10,7 +10,7 @@ import license from 'rollup-plugin-license'
 import dts from 'rollup-plugin-dts';
 import { version, main, module, author } from './package.json'
 
-const name = "V5Protocol";
+const name = "Node Web Serial Ponyfill";
 
 const isProduction = process.env.NODE_ENV === 'production'
 

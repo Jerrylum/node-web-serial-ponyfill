@@ -2,7 +2,7 @@
 import { serial } from '../src/';
 
 (async function () {
-    let filters: SerialPortFilter[] = [{ usbVendorId: 10376 }];
+    let filters = [{ usbVendorId: 10376 }];
 
     let port = await serial.requestPort({ filters });
 
@@ -12,10 +12,6 @@ import { serial } from '../src/';
 
     port.addEventListener('disconnect', () => {
         console.log('Event Disconnected');
-    });
-
-    port.addEventListener('error', () => {
-        console.log('Event Error');
     });
 
     await port.open({ baudRate: 115200 });

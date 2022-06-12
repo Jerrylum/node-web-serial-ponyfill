@@ -1,7 +1,7 @@
 {
   "name": "node-web-serial-ponyfill",
-  "version": "0.5.0",
-  "description": "Just a test package lmao.",
+  "version": "0.5.1",
+  "description": "An implementation of the Serial API on top of the Node.js serialport package.",
   "main": "dist/node-web-serial-ponyfill.cjs.js",
   "typings": "index.d.ts",
   "module": "dist/node-web-serial-ponyfill.es.js",
