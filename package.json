@@ -48,8 +48,6 @@
   },
   "dependencies": {
     "@types/dom-serial": "^1.0.2",
-    "@types/prompt-sync": "^4.1.1",
-    "prompt-sync": "^4.2.0",
     "serialport": "^10.4.0",
     "web-streams-polyfill": "^3.2.1"
   }

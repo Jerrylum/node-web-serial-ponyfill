@@ -1,10 +1,8 @@
 import { SerialPort as UpstreamSerialPort } from "serialport";
-import promptSync from 'prompt-sync';
 
 import { NodeSerial } from ".";
 import { NodeSerialPortAdapter } from "./NodeSerialPortAdapter";
-
-const prompt = promptSync();
+import { prompt } from "./NodePrompt";
 
 export class NodeSerialAdapter extends EventTarget implements NodeSerial {
     onconnect: EventHandler;
@@ -68,11 +66,11 @@ export class NodeSerialAdapter extends EventTarget implements NodeSerial {
         console.log("------------------------------");
 
         if (ports.length === 0) {
-            var ans = prompt('Enter "r" to reload the list: ');
+            var ans = await prompt('Enter "r" to reload the list: ');
         } else if (ports.length === 1) {
-            var ans = prompt(`Enter 0 to the port or "r" to reload the list: `);
+            var ans = await prompt(`Enter 0 to the port or "r" to reload the list: `);
         } else {
-            var ans = prompt(`Enter 0 ~ ${ports.length - 1} to select a port or "r" to reload the list: `);
+            var ans = await prompt(`Enter 0 ~ ${ports.length - 1} to select a port or "r" to reload the list: `);
         }
 
         if (ans === 'r') {
