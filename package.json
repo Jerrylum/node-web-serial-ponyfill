@@ -5,6 +5,9 @@
   "main": "dist/node-web-serial-ponyfill.cjs.js",
   "typings": "index.d.ts",
   "module": "dist/node-web-serial-ponyfill.es.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "start": "ts-node examples/connect.ts",
     "build": "tsc && NODE_ENV=production rollup -c",
