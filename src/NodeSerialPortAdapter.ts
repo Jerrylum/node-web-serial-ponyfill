@@ -117,8 +117,8 @@ export class NodeSerialPortAdapter extends EventTarget implements NodeSerialPort
                 } else if (this.port_) {
                     this.port_.on("close", this.closePortEvent.bind(this));
 
-                    this.dispatchEvent(new Event("connect"));
-                    if (this.onconnect) this.onconnect(new Event("connect"));
+                    this.dispatchEvent(new Event("open"));
+                    // if (this.onconnect) this.onconnect(new Event("connect"));
 
                     resolve();
                 }
@@ -157,7 +157,7 @@ export class NodeSerialPortAdapter extends EventTarget implements NodeSerialPort
     }
 
     protected closePortEvent() {
-        this.dispatchEvent(new Event("disconnect"));
-        if (this.ondisconnect) this.ondisconnect(new Event("disconnect"));
+        this.dispatchEvent(new Event("close"));
+        // if (this.ondisconnect) this.ondisconnect(new Event("disconnect"));
     }
 }

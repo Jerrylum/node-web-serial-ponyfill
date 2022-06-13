@@ -1,7 +1,7 @@
-import { NodeSerial, serial } from '../src/';
+import { serial } from '../src/';
 
 (async function () {
-    let filters: SerialPortFilter[] = [{ usbVendorId: 10376 }];
+    let filters = [{ usbVendorId: 10376 }];
 
     let ports = await serial.getPorts();
 

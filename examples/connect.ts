@@ -6,14 +6,6 @@ import { serial } from '../src/';
 
     let port = await serial.requestPort({ filters });
 
-    port.addEventListener('connect', () => {
-        console.log('Event Connected');
-    });
-
-    port.addEventListener('disconnect', () => {
-        console.log('Event Disconnected');
-    });
-
     await port.open({ baudRate: 115200 });
 
     let reader = port.readable.getReader();

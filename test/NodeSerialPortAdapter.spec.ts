@@ -243,7 +243,7 @@ describe('Node Serial Port', () => {
         });
     });
 
-    test('connect() and disconnect() events dispatch', async () => {
+    test('open() and close() events dispatch', async () => {
         let subject = new NodeSerialPortAdapter(testPortInfo);
 
         let conn = jest.fn();
@@ -251,8 +251,8 @@ describe('Node Serial Port', () => {
         let disconn = jest.fn();
         let disconn2 = jest.fn();
 
-        subject.addEventListener('connect', conn);
-        subject.addEventListener('disconnect', disconn);
+        subject.addEventListener('open', conn);
+        subject.addEventListener('close', disconn);
 
         subject.onconnect = conn2;
         subject.ondisconnect = disconn2;
@@ -261,19 +261,19 @@ describe('Node Serial Port', () => {
 
         for (let index = 0; index < count; index++) {
             expect(conn).toHaveBeenCalledTimes(index);
-            expect(conn2).toHaveBeenCalledTimes(index);
+            expect(conn2).toHaveBeenCalledTimes(0);
             expect(disconn).toHaveBeenCalledTimes(index);
-            expect(disconn2).toHaveBeenCalledTimes(index);
+            expect(disconn2).toHaveBeenCalledTimes(0);
             await subject.open(testSerialOption);
             expect(conn).toHaveBeenCalledTimes(index + 1);
-            expect(conn2).toHaveBeenCalledTimes(index + 1);
+            expect(conn2).toHaveBeenCalledTimes(0);
             expect(disconn).toHaveBeenCalledTimes(index);
-            expect(disconn2).toHaveBeenCalledTimes(index);
+            expect(disconn2).toHaveBeenCalledTimes(0);
             await subject.close();
             expect(conn).toHaveBeenCalledTimes(index + 1);
-            expect(conn2).toHaveBeenCalledTimes(index + 1);
+            expect(conn2).toHaveBeenCalledTimes(0);
             expect(disconn).toHaveBeenCalledTimes(index + 1);
-            expect(disconn2).toHaveBeenCalledTimes(index + 1);
+            expect(disconn2).toHaveBeenCalledTimes(0);
         }
     });
 });
