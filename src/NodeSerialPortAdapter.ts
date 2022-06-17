@@ -29,12 +29,11 @@ class NodeUnderlyingSource implements UnderlyingSource<Uint8Array> {
 
         const onClose = () => this.handleDisconnection(controller);
 
+        this.adapter_.controllerQueue_.push(controller);
+
         this.port_.once("close", onClose);
 
-        this.port_.once("data", async (stream: Buffer) => {
-            let data: Buffer | null = stream;
-            let ab = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
-            controller.enqueue(new Uint8Array(ab));
+        this.port_.once("data", async (_stream: Buffer) => {
             this.port_.removeListener("close", onClose);
         });
     }
@@ -77,6 +76,8 @@ export class NodeSerialPortAdapter extends EventTarget implements NodeSerialPort
     info_: UpstreamPortInfo;
     readable_: ReadableStream<Uint8Array>;
     writable_: WritableStream<Uint8Array>;
+    readBuffer_: Buffer = Buffer.from([]);
+    controllerQueue_: ReadableStreamDefaultController[] = [];
 
     get readable(): ReadableStream<Uint8Array> {
         if (!this.readable_ && this.port_?.isOpen) {
@@ -116,6 +117,7 @@ export class NodeSerialPortAdapter extends EventTarget implements NodeSerialPort
                     reject(err);
                 } else if (this.port_) {
                     this.port_.on("close", this.closePortEvent.bind(this));
+                    this.port_.on("data", this.receiveDataEvent.bind(this));
 
                     this.dispatchEvent(new Event("open"));
                     // if (this.onconnect) this.onconnect(new Event("connect"));
@@ -159,5 +161,18 @@ export class NodeSerialPortAdapter extends EventTarget implements NodeSerialPort
     protected closePortEvent() {
         this.dispatchEvent(new Event("close"));
         // if (this.ondisconnect) this.ondisconnect(new Event("disconnect"));
+    }
+
+    protected receiveDataEvent(stream: Buffer) {
+        let controller = this.controllerQueue_.shift();
+        
+        if (controller) {
+            let data: Buffer = Buffer.concat([this.readBuffer_, stream]);
+            let ab = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
+            controller.enqueue(new Uint8Array(ab));
+            this.readBuffer_ = Buffer.from([]);
+        } else {
+            this.readBuffer_ = Buffer.concat([this.readBuffer_, stream]);
+        }
     }
 }

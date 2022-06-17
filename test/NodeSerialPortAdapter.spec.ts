@@ -6,6 +6,14 @@ function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
 
+function getRandomUInt8Array(size: number) {
+    let rtn: number[] = [];
+    for (let i = 0; i < size; i++) {
+        rtn.push(getRandomInt(256));
+    }
+    return new Uint8Array(rtn);
+}
+
 describe('Node Serial Port', () => {
 
     const testPortInfo = { path: "a", manufacturer: "b", serialNumber: "c", pnpId: "d", locationId: "e", productId: "321", vendorId: "123" };
@@ -43,21 +51,23 @@ describe('Node Serial Port', () => {
 
         let upstream: SerialPortMock = subject.port_ as SerialPortMock;
 
+        upstream.port?.emitData(Buffer.from(new Uint8Array([1, 2, 3, 4, 5])));
+
+        await new Promise(resolve => setTimeout(resolve, 1));
+        
         let reader = subject.readable.getReader();
         expect(() => subject.readable.getReader()).toThrow(TypeError); // no second reader, locked
 
-        let expected = new Uint8Array([1, 2, 3, 4, 5]);
-        upstream.port?.emitData(Buffer.from(expected));
+        upstream.port?.emitData(Buffer.from(new Uint8Array([6, 7, 8, 9])));
 
+        let expected = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         let { value: received, done } = await reader.read();
-        expect(done).toBeFalsy();
         expect(received).toEqual(expected);
+        expect(done).toBeFalsy();
+
+        reader.read();
 
         await subject.close();
-
-        ({ value: received, done } = await reader.read());
-        expect(done).toBeTruthy();
-        expect(received).toBeUndefined();
     });
 
     test('Reader can be closed without error', async () => {
