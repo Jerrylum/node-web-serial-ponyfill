@@ -62,7 +62,7 @@ Good question! The user interface is the same as the browser. If you ask the use
 
 # More features:
 
-In addition, you can still do everything you can do in Node.js. For example, you can connect to a serial port by providing the path name. So we provide you the `findPort` method which will returns the port that matches the given path name. It's specific to Node.js and you can't do it in the browser. Here is the type definition of this package.
+In addition, you can still do everything you can do in Node.js. For example, you can connect to a serial port by providing the path name. So we provide you the `findPort` method which will return the port that matches the given path name. It's specific to Node.js and you can't do it in the browser. Here is the type definition of this package.
 
 ```ts
 interface NodeSerial extends Serial {
@@ -89,7 +89,7 @@ declare const serial: NodeSerial;
 
 - Events `connect` and `disconnect` are not implemented.
 - Events `open` and `close` are implemented in the serial port class.
-- A serial port can be closed without releasing the readable and writable stream.
+- A serial port can be closed without releasing the readable and writable streams.
 
 
 # Development
